@@ -1,0 +1,13 @@
+<h1>Hello! Add Collaborators!</h1>
+<%= form_for @collaborator do %>
+<%= form_tag collaborate_wiki_collaborators_path do  %>
+
+<% for user in User.find(:all) %>
+<div>
+  <%= check_box_tag "user_ids[]", user.id %>
+  <%= user.email %>
+</div>
+<% end %>
+<%= submit_tag "Add Collaborators!" %>
+<% end %>
+<% end %>

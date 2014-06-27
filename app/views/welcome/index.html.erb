@@ -1,2 +1,6 @@
-<h1>Welcome#index</h1>
-<p>Find me in app/views/welcome/index.html.erb</p>
+<h1 align="center">Welcome to Blocipedia</h1>
+<% if current_user %>
+<body><%= render partial: 'user' %></body>
+<% else %>
+<body align="center"> Sign up for an account! With Blocipedia you can make free public WIKI's! Also you can upgrade your account to make private ones!</body>
+<% end %>

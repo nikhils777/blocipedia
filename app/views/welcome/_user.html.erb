@@ -1,0 +1,13 @@
+<h2 align="center"> WIKI'S </h2>
+<br>
+<table class="table table-bordered" align="center" style="width:300px">
+  <tr class="info">
+  <td> Your WIKI's! </td>
+  </tr>
+<% @wikis.each do |f| %>
+<tr>
+  <td><%= link_to "#{f.name}", f %></td>
+</tr>
+<br>
+<% end %>
+<h5 align="center">New Wiki? <%= link_to "New Wiki", new_wiki_path %></h5>

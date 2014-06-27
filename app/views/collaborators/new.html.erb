@@ -1,0 +1,26 @@
+<h1 align="center"> Which users would you like to add as Collaborators? </h1>
+<%= form_tag [@wiki, @collaborator] do  %>
+<% for user in User.find(:all) %>
+<% next if @wiki.users.include?(user) %>
+<div>
+<%= check_box_tag "user_ids[]", user.id %>
+<%= user.email %>
+</div>
+<% end %>
+<div>
+<%= submit_tag "Add Collaborators!" %>
+</div>
+<% end %>
+<% if policy(@wiki).update? %>
+<h2>Remove Collaborators!</h2>
+<% @wiki.collaborators.each do |c| %>
+<%= form_tag [@wiki, @collaborator] do  %>
+<div><%= link_to "Remove #{User.find(c.user_id).email}", [@wiki, c] , method: :delete %></div>
+<% end %>
+<% end %>
+<% end %>
+
+
+
+
+

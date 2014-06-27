@@ -1,0 +1,13 @@
+<h1> Collaborators for <%= @wiki.name %> </h1>
+<body>Here are the Collaborators </body>
+
+<%= form_for edit_wiki_collaborator_path(@wiki, @collaborator) do |f|  %>
+
+<% for user in User.find(:all) %>
+<div>
+  <%= check_box_tag "user_ids[]", user.id %>
+  <%= user.email %>
+</div>
+<% end %>
+<%= f.submit "Add Collaborators!", method: :update %>
+<% end %>

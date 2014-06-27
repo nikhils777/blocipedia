@@ -1,0 +1,44 @@
+
+<div class="row">
+<div class="col-md-10">
+<h1 align="center"><%= markdown @wiki.name %></h1>
+<% if policy(@wiki).update? %>
+<small align="center"><%= link_to "Delete WIKI!", @wiki , method: :delete %></small>
+<% end %>
+<% if (@wiki.collaborate.include?(current_user.email) || policy(@wiki).update?) %>
+<small align="center"><%= link_to "Edit Wiki", edit_wiki_path %></small> 
+<% end %>
+<br>
+<body align="center"><%= markdown @wiki.description %></body>
+</div>
+<div class="col-md-2">
+<% if policy(@wiki).update? %>
+<h3>Add Collaborators!</h3>
+<br>
+<%= form_tag [@wiki, @collaborator] do  %>
+<% for user in User.find(:all) %>
+<% next if @wiki.users.include?(user) %>
+<small>
+<%= check_box_tag "user_ids[]", user.id %>
+<%= user.email %>
+</small>
+<br>
+<% end %>
+<small>
+<%= submit_tag "Add Collaborators!" %>
+</small>
+<% end %>
+<br>
+<h4>Remove Collaborators!</h4>
+
+<% @wiki.collaborators.each do |c| %>
+
+<small>
+  <%= button_to "Remove #{User.find(c.user_id).email}", [@wiki, c] , method: :delete %>
+</small>
+<br>
+<% end %>
+</div>
+<% end %>
+</div>
+
