@@ -9,7 +9,7 @@ class Wiki < ActiveRecord::Base
   scope :member, -> { where(public: false) }
   def collaborate
     emails = []
-    self.collaborators.each do |user|
+    self.collaborators.each do |user| 
       emails << User.find(user.user_id).email
     end
     emails
