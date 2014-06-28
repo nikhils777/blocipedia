@@ -12,7 +12,7 @@
       <ul class="nav nav-tabs">
         <li><%= link_to "Blocipedia", welcome_index_path %></li>
         <li><%= link_to "About", welcome_about_path %></li>
-        <li><%= link_to "Wikis", wikis_path %></li>
+        <li><%= link_to "Public Wikis", wikis_path %></li>
         <% if current_user %>
         <li><%= link_to "Upgrade!", new_subscription_path %></li>
         <% if User.find(current_user.id).subscriptions.count > 0 %>
