@@ -5,16 +5,14 @@
 <% if policy(@wiki).update? %>
 <small align="center"><%= link_to "Delete WIKI!", @wiki , method: :delete %></small>
 <% end %>
-<% if @wiki.collaborators %>
 <% if (@wiki.collaborate.include?(current_user.email) || policy(@wiki).update?) %>
 <small align="center"><%= link_to "Edit Wiki", edit_wiki_path %></small> 
-<% end %>
 <% end %>
 <br>
 <body align="center"><%= markdown @wiki.description %></body>
 </div>
 <div class="col-md-2">
-<% if policy(@wiki).update? %>
+<% if (policy(@wiki).update? && User.find(current_user.id).subscriptions.count > 0)%>
 <h3>Add Collaborators!</h3>
 <br>
 <%= form_tag [@wiki, @collaborator] do  %>
