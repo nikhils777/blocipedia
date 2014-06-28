@@ -1,7 +1,6 @@
 class WikisController < ApplicationController
   def index
     @wikis = Wiki.all.visible_to
-    authorize @wikis
   end
 
   def new

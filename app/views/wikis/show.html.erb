@@ -2,20 +2,24 @@
 <div class="row">
 <div class="col-md-10">
 <h1 align="center"><%= markdown @wiki.name %></h1>
+<% if current_user %>
 <% if policy(@wiki).update? %>
 <small align="center"><%= link_to "Delete WIKI!", @wiki , method: :delete %></small>
 <% end %>
-<% if (@wiki.collaborate.include?(current_user.email) || policy(@wiki).update?) %>
+<% if policy(@wiki).update? || @wiki.collaborate.include?(current_user.email) %>
 <small align="center"><%= link_to "Edit Wiki", edit_wiki_path %></small> 
+<% end %>
 <% end %>
 <br>
 <body align="center"><%= markdown @wiki.description %></body>
 </div>
+
 <div class="col-md-2">
-<% if (policy(@wiki).update? && User.find(current_user.id).subscriptions.count > 0)%>
+<% if current_user %>
+<% if (policy(@wiki).update? && User.find(current_user.id).subscriptions.count > 0) %>
 <h3>Add Collaborators!</h3>
 <br>
-<%= form_tag [@wiki, @collaborator] do  %>
+<%= form_tag [@wiki, @collaborator] do %>
 <% for user in User.find(:all) %>
 <% next if @wiki.users.include?(user) %>
 <small>
@@ -30,7 +34,6 @@
 <% end %>
 <br>
 <h4>Remove Collaborators!</h4>
-<% if @wiki.collaborators %>
 <% @wiki.collaborators.each do |c| %>
 
 <small>
@@ -42,4 +45,3 @@
 <% end %>
 <% end %>
 </div>
-
