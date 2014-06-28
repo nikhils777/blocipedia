@@ -10,11 +10,15 @@
         <%= f.label :description %>
         <%= f.text_area :description, rows: 16, class: 'form-control', placeholder: "WIKI" %>
       </div>
+      <% if User.find(current_user.id).subscriptions.count > 0 %>
       <div class="form-group">
         <%= f.label :public, class: 'checkbox' do %>
         <%= f.check_box :public %> Public WIKI?
         <% end %>
       </div>
+      <% else %>
+        <div>Upgrade your account and you will be able to set your wiki as private or public!</div>
+      <% end %>
         <div style="margin:10px"><%= f.submit "Save", class: 'btn btn-success' %></div>
     <% end %>
   </div>
