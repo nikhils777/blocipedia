@@ -19,7 +19,9 @@ class WikisController < ApplicationController
 
   def edit
     @wiki = Wiki.friendly.find(params[:id])
+    authorize @wiki
   end
+
   def update
     @wiki = Wiki.friendly.find(params[:id])
     if @wiki.update_attributes( wiki_params )
