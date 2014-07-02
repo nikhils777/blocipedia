@@ -1,6 +1,6 @@
 Blocipedia::Application.routes.draw do
   resources :wikis do
-    resources :collaborators 
+    resources :collaborators, only: [:create, :destroy] 
   end
   resources :subscriptions
   devise_for :users

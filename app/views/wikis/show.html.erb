@@ -20,7 +20,7 @@
 <h3>Add Collaborators!</h3>
 <br>
 <%= form_tag [@wiki, @collaborator] do %>
-<% for user in User.find(:all) %>
+<% for user in @users %>
 <% next if @wiki.users.include?(user) %>
 <small>
 <%= check_box_tag "user_ids[]", user.id %>

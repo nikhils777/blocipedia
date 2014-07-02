@@ -1,10 +1,9 @@
 class Wiki < ActiveRecord::Base
   extend FriendlyId
   friendly_id :name, use: [:slugged, :history]
-  serialize :members
-  has_many :users, through: :collaborators
   belongs_to :user
   has_many :collaborators
+  has_many :users, through: :collaborators
   scope :visible_to, -> { where(public: true) }
   scope :member, -> { where(public: false) }
   def collaborate
