@@ -4,8 +4,11 @@ class WikiPolicy < ApplicationPolicy
   end
   
   def edit?
-    user &&
-    (record.user == user || user.role?(:admin) || (record.collaborators.where(user_id: current_user.id).length > 0))
+    if user
+      (record.user == user || user.role?(:admin) || (record.collaborators.where(user_id: user.id).length > 0))
+    else 
+      false
+    end
   end
   
   def update?
