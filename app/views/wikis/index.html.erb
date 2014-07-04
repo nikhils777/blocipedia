@@ -1,4 +1,7 @@
 <h1 align="center">Public WIKIs</h1>
+<% if current_user %>
+<div align= "center"><small><%= link_to "New Wiki?", new_wiki_path %></small></div>
+<% end %>
 <% @wikis.each do |f| %>
 <div align="center"><%= link_to "#{f.name}" , f %></div>
 <% end %>

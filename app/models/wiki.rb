@@ -6,6 +6,8 @@ class Wiki < ActiveRecord::Base
   has_many :users, through: :collaborators
   scope :visible_to, -> { where(public: true) }
   scope :member, -> { where(public: false) }
+  validates :description, length: { minimum: 5}, presence: true
+  validates :description, presence: true
   def collaborate
     emails = []
     self.collaborators.each do |user| 

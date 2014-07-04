@@ -14,4 +14,7 @@ class WikiPolicy < ApplicationPolicy
   def update?
     edit?
   end
+  def master_edit?
+    record.user == user
+  end
 end

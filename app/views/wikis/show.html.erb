@@ -3,7 +3,7 @@
 <div class="col-md-10" align="center">
 <h1 align="center"><%= markdown @wiki.name %></h1>
 
-<% if policy(@wiki).update? %>
+<% if policy(@wiki).master_edit? %>
 <small align="center"><%= link_to "Delete WIKI!", @wiki , method: :delete %></small>
 <% end %>
 <% if policy(@wiki).update? %>
@@ -16,20 +16,16 @@
 
 <div class="col-md-2">
 
-<% if (policy(@wiki).update? && User.find(current_user.id).subscriptions.count > 0) %>
+<% if (policy(@wiki).master_edit? && User.find(current_user.id).subscriptions.count > 0) %>
 <h3>Add Collaborators!</h3>
 <br>
-<%= form_tag [@wiki, @collaborator] do %>
-<% for user in @users %>
-<% next if @wiki.users.include?(user) %>
+<%= form_tag [@wiki, @collaborator] do |f| %>
 <small>
-<%= check_box_tag "user_ids[]", user.id %>
-<%= user.email %>
+<%= select_tag(:user_id, options_for_select(@user_array)) %>
 </small>
-<br>
-<% end %>
+
 <small>
-<%= submit_tag "Add Collaborators!" %>
+<%= submit_tag "Add Collaborator!" %>
 </small>
 <% end %>
 <br>

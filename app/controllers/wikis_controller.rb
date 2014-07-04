@@ -11,7 +11,18 @@ class WikisController < ApplicationController
 
   def show
     @wiki = Wiki.friendly.find(params[:id])
-    @users = User.where.not(id: current_user.id)
+    if current_user
+      @users = User.where.not(id: current_user.id)
+      @nc_users = []
+      @users.each do |user|
+        if @wiki.collaborate.include?(user.email)
+          next
+        else
+          @nc_users << user
+        end
+      end
+      @user_array = @nc_users.map { |user| [user.email, user.id]}
+    end
     @collaborator = Collaborator.new  
     if request.path != wiki_path(@wiki)
       redirect_to @wiki, status: :moved_permanently
@@ -38,7 +49,7 @@ class WikisController < ApplicationController
     if @wiki.save
       redirect_to root_path, notice: "Wiki was saved successfully."
     else
-      flash[:error] = "Error saving wiki. Please try again."
+      flash[:error] = "Errors in Wiki - #{@wiki.errors.full_messages}"
       render :new
     end
   end

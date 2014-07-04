@@ -2,9 +2,9 @@ class CollaboratorsController < ApplicationController
   
   def create
     @wiki = Wiki.friendly.find(params[:wiki_id])
-    params[:user_ids].flatten.each do |user|
-     @wiki.collaborators.build(user_id: user.to_i ).save
-    end
+    id = params[:user_id]
+    @wiki.collaborators.build(user_id: id ).save
+    
     redirect_to @wiki
   end
 
