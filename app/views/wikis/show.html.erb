@@ -1,45 +1,40 @@
 
 <div class="row">
-<div class="col-md-10" align="center">
-<h1 align="center"><%= markdown @wiki.name %></h1>
+  <div class="col-md-10" align="center">
+    <h1 align="center"><%= markdown @wiki.name %></h1>
 
-<% if policy(@wiki).master_edit? %>
-<small align="center"><%= link_to "Delete WIKI!", @wiki , method: :delete %></small>
-<% end %>
-<% if policy(@wiki).update? %>
-<small align="center"><%= link_to "Edit Wiki", edit_wiki_path %></small> 
-<% end %>
+    <% if policy(@wiki).destroy? %>
+      <small align="center"><%= link_to "Delete WIKI!", @wiki , method: :delete %></small>
+    <% end %>
+    <% if policy(@wiki).update? %>
+      <small align="center"><%= link_to "Edit Wiki", edit_wiki_path %></small> 
+    <% end %>
 
-<br>
-<body align="center"><%= markdown @wiki.description %></body>
-</div>
+    <br>
+    <div align="center"><%= markdown @wiki.description %></div>
+  </div>
 
-<div class="col-md-2">
+  <div class="col-md-2">
 
-<% if (policy(@wiki).master_edit? && User.find(current_user.id).subscriptions.count > 0) %>
-<h3>Edit Collaborators!</h3>
-<br>
-<% if @user_array.length > 0 %>
-<%= form_for [@wiki, @collaborator] do |f| %>
-<small>
-<%= select_tag(:user_id, options_for_select(@user_array)) %>
-</small>
+  <% if (policy(@wiki).destroy? && User.find(current_user.id).subscriptions.count > 0) %>
+    <h3>Edit Collaborators!</h3>
+    <br>
+    <% if @user_array.length > 0 %>
+      <%= form_for [@wiki, @collaborator] do |f| %>
+        <%= f.hidden_field :wiki_id %>
+        <%= f.collection_select :user_id, @users, :id, :email %>
+        <%= f.submit "Add Collaborator!" %>
+      <% end %>
+    <% end %>
+    <br>
+    <h4>Remove Collaborators!</h4>
+    <% @wiki.collaborators.each do |c| %>
 
-<small>
-<%= f.submit "Add Collaborator!" %>
-</small>
-<% end %>
-<% end %>
-<br>
-<h4>Remove Collaborators!</h4>
-<% @wiki.collaborators.each do |c| %>
-
-<small>
-  <%= button_to "Remove #{User.find(c.user_id).email}", [@wiki, c] , method: :delete %>
-</small>
-<br>
-<% end %>
-</div>
-<% end %>
-
+      <small>
+        <%= button_to "Remove #{User.find(c.user_id).email}", [@wiki, c] , method: :delete %>
+      </small>
+      <br>
+    <% end %>
+    </div>
+  <% end %>
 </div>

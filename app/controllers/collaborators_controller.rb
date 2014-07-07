@@ -1,15 +1,16 @@
 class CollaboratorsController < ApplicationController
   
   def create
-    @wiki = Wiki.friendly.find(params[:wiki_id])
-    id = params[:user_id]
-    @collaborator = @wiki.collaborators.new(user_id: id )
+    #@wiki = Wiki.friendly.find(params[:wiki_id])
+    #id = params[:user_id]
+    @collaborator = Collaborator.new( collaborator_params )
+    #@collaborator = @wiki.collaborators.new(user_id: id )
     authorize @collaborator
     if @collaborator.save
-      redirect_to @wiki
+      redirect_to @collaborator.wiki
     else
      flash[:error] = "error adding collaborator"
-    redirect_to [@wiki]
+    redirect_to @collaborator.wiki
     end 
   end
 
@@ -30,7 +31,7 @@ class CollaboratorsController < ApplicationController
   private
 
   def collaborator_params
-    params.require(:collaborator)
+    params.require(:collaborator).permit(:user_id, :wiki_id)
   end
   
 end

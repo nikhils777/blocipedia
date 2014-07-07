@@ -14,7 +14,7 @@ class WikiPolicy < ApplicationPolicy
   def update?
     edit?
   end
-  def master_edit?
-    record.user == user
+  def destroy?
+    record.user == user || user.role?(:admin)
   end
 end

@@ -16,7 +16,7 @@ class WikisController < ApplicationController
 
       @user_array = @users.map { |user| [user.email, user.id]}
     end
-    @collaborator = Collaborator.new  
+    @collaborator = Collaborator.new(wiki_id: @wiki.id) 
     if request.path != wiki_path(@wiki)
       redirect_to @wiki, status: :moved_permanently
     end
