@@ -12,16 +12,9 @@ class WikisController < ApplicationController
   def show
     @wiki = Wiki.friendly.find(params[:id])
     if current_user
-      @users = User.where.not(id: current_user.id)
-      @nc_users = []
-      @users.each do |user|
-        if @wiki.collaborate.include?(user.email)
-          next
-        else
-          @nc_users << user
-        end
-      end
-      @user_array = @nc_users.map { |user| [user.email, user.id]}
+      @users = User.where.not(id: current_user.id).where.not(id: @wiki.users.map{ |user| user.id})
+
+      @user_array = @users.map { |user| [user.email, user.id]}
     end
     @collaborator = Collaborator.new  
     if request.path != wiki_path(@wiki)

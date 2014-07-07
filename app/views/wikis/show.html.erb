@@ -17,16 +17,18 @@
 <div class="col-md-2">
 
 <% if (policy(@wiki).master_edit? && User.find(current_user.id).subscriptions.count > 0) %>
-<h3>Add Collaborators!</h3>
+<h3>Edit Collaborators!</h3>
 <br>
-<%= form_tag [@wiki, @collaborator] do |f| %>
+<% if @user_array.length > 0 %>
+<%= form_for [@wiki, @collaborator] do |f| %>
 <small>
 <%= select_tag(:user_id, options_for_select(@user_array)) %>
 </small>
 
 <small>
-<%= submit_tag "Add Collaborator!" %>
+<%= f.submit "Add Collaborator!" %>
 </small>
+<% end %>
 <% end %>
 <br>
 <h4>Remove Collaborators!</h4>
