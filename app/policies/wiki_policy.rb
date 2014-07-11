@@ -4,17 +4,18 @@ class WikiPolicy < ApplicationPolicy
   end
   
   def edit?
-    if user
-      (record.user == user || user.role?(:admin) || (record.collaborators.where(user_id: user.id).length > 0))
-    else 
-      false
-    end
+    
+    user && (record.user == user || user.role?(:admin) || (record.collaborators.where(user_id: user.id).length > 0))
+    
   end
   
   def update?
     edit?
   end
   def destroy?
-    record.user == user || user.role?(:admin)
+    user && (record.user == user || user.role?(:admin))
+  end
+  def show?
+    record.public || (user && user.subscriptions) 
   end
 end

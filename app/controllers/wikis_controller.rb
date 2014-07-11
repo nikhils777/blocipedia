@@ -11,6 +11,7 @@ class WikisController < ApplicationController
 
   def show
     @wiki = Wiki.friendly.find(params[:id])
+    authorize @wiki
     if current_user
       @users = User.where.not(id: current_user.id).where.not(id: @wiki.users.map{ |user| user.id})
 
@@ -29,6 +30,7 @@ class WikisController < ApplicationController
 
   def update
     @wiki = Wiki.friendly.find(params[:id])
+    authorize @wiki
     if @wiki.update_attributes( wiki_params )
       redirect_to @wiki
     else
@@ -42,7 +44,7 @@ class WikisController < ApplicationController
     if @wiki.save
       redirect_to root_path, notice: "Wiki was saved successfully."
     else
-      flash[:error] = "Errors in Wiki - #{@wiki.errors.full_messages}"
+      flash[:error] = "Error saving WIKI"
       render :new
     end
   end

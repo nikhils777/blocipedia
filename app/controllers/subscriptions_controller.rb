@@ -4,7 +4,11 @@ class SubscriptionsController < ApplicationController
     @subscription = @user.subscriptions.new
   end
   def index
-    @wikis = Wiki.all.member
+    if current_user && current_user.subscriptions
+      @wikis = Wiki.all.member
+    else
+      redirect_to root_path , :alert => "You do not have access to this"
+    end
   end
   def create
     @user = User.find(current_user.id)
